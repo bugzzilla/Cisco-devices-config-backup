@@ -18,7 +18,7 @@
 			INSERT INTO `joblog` (job_id, templates_template_id, job_started, devices_to_backup, devices_per_backup_thread, backup_thread_count)
 	        VALUES (:job_id, :templates_template_id, :job_started, :devices_to_backup, :devices_per_backup_thread, :backup_thread_count)");
 
-	define('_PDO_UPDATE_NEW_BACKUP_JOB_LOG_', "UPDATE `joblog` SET job_stopped = :job_stopped, job_log = :job_log, job_status = :job_status WHERE job_id = :job_id");
+	define('_PDO_UPDATE_NEW_BACKUP_JOB_LOG_', "UPDATE `joblog` SET job_stopped = :job_stopped, job_log = :job_log, job_status = :job_status WHERE internal_id = :internal_id");
 
 	define('_PDO_UPDATE_DEVICE_HOSTNAME_', "UPDATE `devices` SET device_hostname=:device_hostname WHERE device_id=:device_id");
 

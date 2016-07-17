@@ -18,7 +18,7 @@ class JoblogSearch extends Joblog
     public function rules()
     {
         return [
-            [['job_id', 'job_started', 'job_stopped', 'job_status', 'templates_template_id'], 'safe'],
+            [['internal_id', 'job_id', 'job_started', 'job_stopped', 'job_status', 'templates_template_id'], 'safe'],
         ];
     }
 

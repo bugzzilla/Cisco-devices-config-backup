@@ -36,18 +36,20 @@
             echo date(_LOG_DATE_TIME_FORMAT_).' Devices per backup thread: '.$this->devices_per_backup_thread = $devices_per_backup_thread."\n";
             echo date(_LOG_DATE_TIME_FORMAT_).' Backup thread count: '.$this->backup_thread_count = ceil($this->devices_to_backup_count / $this->devices_per_backup_thread)."\n";
 
+            $sth =$this->pdo_connection->prepare(_PDO_INSERT_NEW_BACKUP_JOB_LOG_);
+            $sth->execute(array(':job_id' => $this->backup_job_id,
+            		':job_started' => $backup_job_started,
+            		':templates_template_id' => $template_id,
+            		':devices_to_backup' => $this->devices_to_backup_count,
+            		':devices_per_backup_thread' => $this->devices_per_backup_thread,
+            		':backup_thread_count' => $this->backup_thread_count));
+            $this->backup_job_pdo_id = $this->pdo_connection->lastInsertId();
+            
             if ($this->devices_to_backup_count == 0) {
                 echo date(_LOG_DATE_TIME_FORMAT_)." No devices to backup \n";
                 return;
             }
-
-            $sth =$this->pdo_connection->prepare(_PDO_INSERT_NEW_BACKUP_JOB_LOG_);
-            $sth->execute(array(':job_id' => $this->backup_job_id,
-                ':job_started' => $backup_job_started,
-            	':templates_template_id' => $template_id,            		
-                ':devices_to_backup' => $this->devices_to_backup_count,
-                ':devices_per_backup_thread' => $this->devices_per_backup_thread,
-                ':backup_thread_count' => $this->backup_thread_count));
+            
         }
 
         public function run() {
@@ -97,19 +99,29 @@
         public function __destruct() {
 
             $backup_job_stopped= date(_LOG_DATE_TIME_FORMAT_);
-            $job_log = file_get_contents(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log');
-            if (strpos($job_log, "ERROR")) 
-	            $job_status = 0;
-            else 
-            	$job_status = 1;            	
             
-            $sth =$this->pdo_connection->prepare(_PDO_UPDATE_NEW_BACKUP_JOB_LOG_);
-            $sth->execute(array(':job_id' => $this->backup_job_id,
-                				':job_stopped' => $backup_job_stopped,
+            if (($this->devices_to_backup_count > 0) & (file_exists(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log'))) {
+	            $job_log = file_get_contents(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log');
+	            unlink(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log');	            
+            	if (strpos($job_log, "ERROR")) 
+		            $job_status = 0;
+            	else 
+            	$job_status = 1;
+            } elseif (($this->devices_to_backup_count == 0)) {
+            	$job_status = 0;
+            	$job_log = "THERE IS NOTHING TO BACKUP";
+            } elseif (!file_exists(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log')) {
+            	$job_status = 0;
+            	$job_log = 'LOG FILE '._BACKUP_JOB_PATH_.$this->backup_job_id.'.log NOT EXISTS';
+            }
+            
+	        $sth =$this->pdo_connection->prepare(_PDO_UPDATE_NEW_BACKUP_JOB_LOG_);
+	        $sth->execute(array(':internal_id' => $this->backup_job_pdo_id,
+	               				':job_stopped' => $backup_job_stopped,
             					':job_status' => $job_status,            		
-                				':job_log' => $job_log));
+	               				':job_log' => $job_log));
             
-           	unlink(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log');
+
             echo $backup_job_stopped.' Controller stoped, job ID '.$this->backup_job_id."\n";
  
 

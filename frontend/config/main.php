@@ -50,14 +50,23 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+        	'baseUrl' => '',
             'rules' => [
+           		'' => 'site/index',
+				'signup' => 'site/signup',
+            	'login' => 'site/login',
+				'<controller>' => '<controller>/index',
+//            	'<controller>/<id:\d+>/action:(create|view|update|delete)>' => '<controller>/<action>',
+//            	'<controller>/<id:\d+>' => '<controller>/<action>',				            		
+//            	'<controller>/<id:\d+>' => '<controller>/update',            		
+            		
+            		
             ],
         ],
-        */
+        
     ],
     'params' => $params,
 ];

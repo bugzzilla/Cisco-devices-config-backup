@@ -37,7 +37,7 @@ class Joblog extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['job_id', 'job_started', 'job_stopped', 'devices_to_backup', 'devices_per_backup_thread', 'backup_thread_count', 'job_log'], 'required'],
+            [['internal_id, job_id', 'job_started', 'job_stopped', 'devices_to_backup', 'devices_per_backup_thread', 'backup_thread_count', 'job_log'], 'required'],
             [['templates_template_id', 'devices_to_backup', 'devices_per_backup_thread', 'backup_thread_count'], 'integer'],
             [['job_started', 'job_stopped'], 'safe'],
             [['job_log', 'job_status'], 'string'],
@@ -52,6 +52,7 @@ class Joblog extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
+        	'internal_id' => Yii::t('app', 'Internal ID'),        		
             'job_id' => Yii::t('app', 'Job ID'),
             'templates_template_id' => Yii::t('app', 'Backup template'),
             'job_started' => Yii::t('app', 'Job started'),

@@ -19,6 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(); ?>    
 
 	<?= GridView::widget([
+        'tableOptions' => [
+            'class' => 'table table-striped table-bordered table-hover',
+        ],
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
 		'formatter' => [
@@ -31,8 +34,8 @@ $this->params['breadcrumbs'][] = $this->title;
 			else return ['class' => 'success'];
 		},			
 		'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
-         'columns' => [
-        		'job_id',
+        'columns' => [
+        	'job_id',
             [
                 'attribute' => 'templates_template_id',
                 'value' => 'templatesTemplate.template_name',
