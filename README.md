@@ -1,1 +1,1 @@
-# Cisco devices config backup, GUI
+# Cisco devices config backup
