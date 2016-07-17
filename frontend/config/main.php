@@ -50,16 +50,6 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-    	'formatter' => [
-    		'class' => 'yii\\i18n\\Formatter',
-   			//date & time format in ICU
-    		'dateFormat' => 'dd MMM y',
-    		'datetimeFormat' => 'dd MMM y H:i:s',    			
-    		'timeFormat' => 'H:i:s',
-    		'nullDisplay' => '<span class="not-set">(not set)</span>',
-    		'booleanFormat' => ['<span class="glyphicon glyphicon-remove"></span> Unsuccess', '<span class="glyphicon glyphicon-ok"></span> Success']
-    	],		    		
-    		
         /*
         'urlManager' => [
             'enablePrettyUrl' => true,

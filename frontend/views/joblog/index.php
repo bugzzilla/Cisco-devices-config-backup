@@ -21,9 +21,17 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+		'formatter' => [
+			'class' => 'yii\\i18n\\Formatter',
+			'datetimeFormat' => 'dd MMM y kk:mm:ss',
+			'booleanFormat' => ['<span class="glyphicon glyphicon-remove"></span> Unsuccess', '<span class="glyphicon glyphicon-ok"></span> Success']
+		],
+		'rowOptions' => function ($model) {
+			if (!$model->job_status) return ['class' => 'danger'];
+			else return ['class' => 'success'];
+		},			
 		'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
-  
-        'columns' => [
+         'columns' => [
         		'job_id',
             [
                 'attribute' => 'templates_template_id',

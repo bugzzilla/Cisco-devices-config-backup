@@ -22,7 +22,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
-	
+		'rowOptions' => function ($model) {
+			if (!$model->backup_status) return ['class' => 'danger'];
+			else return ['class' => 'success'];
+		},
+		'formatter' => [
+			'class' => 'yii\\i18n\\Formatter',
+			'booleanFormat' => ['<span class="glyphicon glyphicon-remove"></span> Disabled', '<span class="glyphicon glyphicon-ok"></span> Enabled']
+		],	
         'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
         'columns' => [
             'device_hostname',
@@ -33,9 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         	[
         		'attribute' => 'backup_status',
-        		'value' => 'backup_status',
         		'format' => 'boolean',
-        		'filter' => array('1' => 'Enabled', '0' => 'Disabled'), 
+        		'filter' => array('1' => 'Enabled', '0' => 'Disabled'),
         	],
             ['class' => 'yii\grid\ActionColumn'],
         ],

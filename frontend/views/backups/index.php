@@ -21,6 +21,10 @@ $this->params['breadcrumbs'][] = $this->title;
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+		'formatter' => [
+			'class' => 'yii\\i18n\\Formatter',
+			'datetimeFormat' => 'dd MMM y kk:mm:ss',
+		],
 		'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
 
         'columns' => [
