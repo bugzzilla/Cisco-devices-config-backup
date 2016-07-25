@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Devices */
 
 if ($model->device_hostname) 
-	$device_fqdn = $model->device_hostname . ' (' . $model->device_address . ')';
+	$device_fqdn = $model->device_hostname . ' (' . trim($model->device_address) . ')';
 else 
 	$device_fqdn = $model->device_address;
 

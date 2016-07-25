@@ -33,12 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         		'attribute' => 'devices_device_id',
 //        		'value' => 'devicesDevice.device_hostname',
         		'value' => function ($model) {
-        			if ($model->devicesDevice->device_hostname)
-        				$device_fqdn = $model->devicesDevice->device_hostname . ' (' . $model->devicesDevice->device_address . ')';
-        			else
-        				$device_fqdn = $model->devicesDevice->device_hostname;
-        			
-        			return Html::a(Html::encode($device_fqdn), Url::to(['devices/view', 'id' => $model->devicesDevice->device_id]));
+        			return Html::a(Html::encode($model->devicesDevice->getDeviceFullName()), Url::to(['devices/view', 'id' => $model->devicesDevice->device_id]));
         		},
         		'format' => 'raw',
         		

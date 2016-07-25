@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model frontend\models\Backups */
 
 if ($model->devicesDevice->device_hostname) 
-	$device_fqdn = $model->devicesDevice->device_hostname . ' ('.$model->devicesDevice->device_address . ')';
+	$device_fqdn = $model->devicesDevice->device_hostname . ' ('.trim($model->devicesDevice->device_address) . ')';
 else 
 	$device_fqdn = $model->devicesDevice->device_address;
 
@@ -39,10 +39,14 @@ $this->params['breadcrumbs'][] = 'Backup for: '. $device_fqdn;
     				'datetimeFormat' => 'medium',
     				'booleanFormat' => ['<span class="glyphicon glyphicon-remove"></span> Unsuccess', '<span class="glyphicon glyphicon-ok"></span> Success']
     		],    		
-        'attributes' => [
+        	'attributes' => [
             'backup_id',
+        	[
+        		'label' => 'Device',
+        		'value' => $model->devicesDevice->getDeviceFullName(),        			
+        		'format' => 'raw',
         		
-            'devicesDevice.device_hostname',
+       		],
             'jobsJob.job_id',
             'config_datetime:datetime',
             'storage_datetime:datetime',

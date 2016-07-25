@@ -37,7 +37,7 @@ class Devices extends \yii\db\ActiveRecord
             [['templates_template_id'], 'integer'],
             [['device_hostname'], 'string', 'max' => 100],
             [['device_address'], 'string', 'max' => 15],
-            [['backup_status'], 'string'],                
+            [['backup_status'], 'string'],
             [['templates_template_id'], 'exist', 'skipOnError' => true, 'targetClass' => Templates::className(), 'targetAttribute' => ['templates_template_id' => 'template_id']],
         ];
     }
@@ -87,5 +87,13 @@ class Devices extends \yii\db\ActiveRecord
     public static function find()
     {
         return new DevicesQuery(get_called_class());
+    }
+    
+    public function getDeviceFullName() 
+    {
+    	if ($this->device_hostname)
+    			return $this->device_hostname . ' (' . trim($this->device_address) . ')';
+    		else
+    			return  $this->device_address;
     }
 }
