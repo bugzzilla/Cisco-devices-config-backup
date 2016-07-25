@@ -6,12 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Devices */
 
-if ($model->device_hostname) 
-	$device_fqdn = $model->device_hostname . ' (' . trim($model->device_address) . ')';
-else 
-	$device_fqdn = $model->device_address;
-
-$this->title = 'Device: ' . $device_fqdn;
+$this->title = 'Device: ' . $model->getDeviceFullName();
 $this->params['breadcrumbs'][] = ['label' => 'Devices', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -24,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Delete', ['delete', 'id' => $model->device_id], [
             'class' => 'btn btn-danger',
             'data' => [
-                'confirm' => 'Are you sure you want to delete device '.$device_fqdn,
+                'confirm' => 'Are you sure you want to delete device '.$model->getDeviceFullName(),
                 'method' => 'post',
             ],
         ]) ?>
