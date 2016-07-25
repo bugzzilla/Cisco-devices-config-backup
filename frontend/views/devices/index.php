@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\DevicesSearch */
@@ -19,7 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Device', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-<?php Pjax::begin(); ?>    <?= GridView::widget([
+
+<?php Pjax::begin(); ?>    
+	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
 		'rowOptions' => function ($model) {
@@ -36,7 +39,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'device_address',
             [
                 'attribute' => 'templates_template_id',
-                'value' => 'templatesTemplate.template_name',
+                //'value' => 'templatesTemplate.template_name',
+				'value' => function ($model) {
+	           		return Html::a(Html::encode($model->templatesTemplate->template_name), Url::to(['templates/view', 'id' => $model->templatesTemplate->template_id]));
+	            },
+                'format' => 'raw',
+
             ],
         	[
         		'attribute' => 'backup_status',

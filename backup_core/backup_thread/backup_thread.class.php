@@ -20,7 +20,7 @@
 			$this->backup_job_file = $backup_job_file;
 			$this->backup_job_id = strtok($this->backup_job_file,'.');
 		
-			// Chech for job file exists & read if exists
+			// Chech for job file exists & read 
 			if (file_exists(_BACKUP_JOB_PATH_.$this->backup_job_file)){
 				$this->backup_job = explode(PHP_EOL, rtrim(file_get_contents(_BACKUP_JOB_PATH_ . $this->backup_job_file),PHP_EOL));
                 // Job count = 0 
@@ -54,13 +54,14 @@
 					$config_url = strtok($device[6],':').":";
 					$config_name = strtok(':');
 
-                                        // Check device hostname, update if changed                                        
-                                        if ($device[8] !== $this->cisco_connection->cisco_hostname) {
-                                            $sth =$this->pdo_connection->prepare(_PDO_UPDATE_DEVICE_HOSTNAME_);
-                                            $sth->execute(array(':device_hostname' => $this->cisco_connection->cisco_hostname, ':device_id' => $device[0]));
-                                        }
-
-                                        // cisco->dir()
+					// Check device hostname, update if changed                                        
+					if ($device[8] !== $this->cisco_connection->cisco_hostname) {
+						$sth =$this->pdo_connection->prepare(_PDO_UPDATE_DEVICE_HOSTNAME_);
+						$sth->execute(array(':device_hostname' => $this->cisco_connection->cisco_hostname, ':device_id' => $device[0]));
+						$this->write_log($device,'NOTIFY_HOSTNAME_CHANGED '.$device[8].' => '.$this->cisco_connection->cisco_hostname);						
+					}
+					
+					// cisco->dir()
 					if (is_array($dir = $this->cisco_connection->dir($config_url))) {
 						foreach ($dir as $item) {
 							if ($item['name'] == $config_name) {
@@ -100,7 +101,8 @@
 					$this->cisco_connection = null;
 
 				} catch (Exception $e) {
-					$this->write_log($device , 'ERROR_CISCO_EXCEPTION: '.$e->getMessage());                                    
+					$this->write_log($device , 'ERROR_CISCO_EXCEPTION: '.$e->getMessage());
+					return;
 				}
 
 			}

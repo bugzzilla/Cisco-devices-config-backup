@@ -24,7 +24,7 @@
             try {
                 $this->pdo_connection = new PDO(_PDO_DSN_, _PDO_USERNAME_, _PDO_PASSWORD_);
             } catch (PDOException $e) {
-                echo date(_LOG_DATE_TIME_FORMAT_).' PDO error: ' . $e->getMessage();
+                echo date(_LOG_DATE_TIME_FORMAT_).' ERROR_PDO_EXCEPTION: ' . $e->getMessage();
                 return;
             }
 
@@ -99,33 +99,30 @@
         public function __destruct() {
 
             $backup_job_stopped= date(_LOG_DATE_TIME_FORMAT_);
-            
-            if (($this->devices_to_backup_count > 0) & (file_exists(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log'))) {
-	            $job_log = file_get_contents(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log');
-	            unlink(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log');	            
-            	if (strpos($job_log, "ERROR")) 
-		            $job_status = 0;
-            	else 
-            	$job_status = 1;
-            } elseif (($this->devices_to_backup_count == 0)) {
-            	$job_status = 0;
-            	$job_log = "THERE IS NOTHING TO BACKUP";
-            } elseif (!file_exists(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log')) {
-            	$job_status = 0;
-            	$job_log = 'LOG FILE '._BACKUP_JOB_PATH_.$this->backup_job_id.'.log NOT EXISTS';
-            }
-            
-	        $sth =$this->pdo_connection->prepare(_PDO_UPDATE_NEW_BACKUP_JOB_LOG_);
-	        $sth->execute(array(':internal_id' => $this->backup_job_pdo_id,
-	               				':job_stopped' => $backup_job_stopped,
-            					':job_status' => $job_status,            		
-	               				':job_log' => $job_log));
-            
-
+            if ($this->pdo_connection) {
+	            if (($this->devices_to_backup_count > 0) & (file_exists(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log'))) {
+		            $job_log = file_get_contents(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log');
+		            unlink(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log');	            
+	            	if (strpos($job_log, "ERROR")) 
+			            $job_status = 0;
+	            	else 
+	            	$job_status = 1;
+	            } elseif (($this->devices_to_backup_count == 0)) {
+	            	$job_status = 0;
+	            	$job_log = "THERE IS NOTHING TO BACKUP";
+	            } elseif (!file_exists(_BACKUP_JOB_PATH_.$this->backup_job_id.'.log')) {
+	            	$job_status = 0;
+	            	$job_log = 'LOG FILE '._BACKUP_JOB_PATH_.$this->backup_job_id.'.log NOT EXISTS';
+	            }
+		        $sth =$this->pdo_connection->prepare(_PDO_UPDATE_NEW_BACKUP_JOB_LOG_);
+		        $sth->execute(array(':internal_id' => $this->backup_job_pdo_id,
+		               				':job_stopped' => $backup_job_stopped,
+	            					':job_status' => $job_status,            		
+		               				':job_log' => $job_log));
+		        $this->pdo_connection = null;
+            }	        
             echo $backup_job_stopped.' Controller stoped, job ID '.$this->backup_job_id."\n";
  
-
-            $this->pdo_connection = null;
         }
 
     }

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
@@ -30,12 +31,26 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
         	[
         		'attribute' => 'devices_device_id',
-        		'value' => 'devicesDevice.device_hostname',
-        	],        		
-        	[
-        		'attribute' => 'jobs_job_id',
-        		'value' => 'jobsJob.job_id',
-        	],
+//        		'value' => 'devicesDevice.device_hostname',
+        		'value' => function ($model) {
+        			if ($model->devicesDevice->device_hostname)
+        				$device_fqdn = $model->devicesDevice->device_hostname . ' (' . $model->devicesDevice->device_address . ')';
+        			else
+        				$device_fqdn = $model->devicesDevice->device_hostname;
+        			
+        			return Html::a(Html::encode($device_fqdn), Url::to(['devices/view', 'id' => $model->devicesDevice->device_id]));
+        		},
+        		'format' => 'raw',
+        		
+       		],
+       		[
+	       		'attribute' => 'jobs_job_id',
+//    			'value' => 'jobsJob.job_id',
+       			'value' => function ($model) {
+       				return Html::a(Html::encode($model->jobsJob->job_id), Url::to(['joblog/view', 'id' => $model->jobsJob->internal_id]));
+	       		},
+    	   		'format' => 'raw',
+       		],
         	[
         		'attribute' => 'config_datetime',
         		'value' => 'config_datetime',

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+use yii\helpers\Url;
 use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
@@ -36,10 +37,15 @@ $this->params['breadcrumbs'][] = $this->title;
 		'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
         'columns' => [
         	'job_id',
-            [
-                'attribute' => 'templates_template_id',
-                'value' => 'templatesTemplate.template_name',
-            ],
+        	[
+        		'attribute' => 'templates_template_id',
+        		//'value' => 'templatesTemplate.template_name',
+        		'value' => function ($model) {
+        		return Html::a(Html::encode($model->templatesTemplate->template_name), Url::to(['templates/view', 'id' => $model->templatesTemplate->template_id]));
+        		},
+        		'format' => 'raw',
+        		
+        	],        		
 			[
 				'attribute' => 'job_started',
 				'value' => 'job_started',
