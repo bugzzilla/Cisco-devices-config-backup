@@ -15,7 +15,7 @@
         public function __construct($cisco_secret, $ssh_auth_user, $ssh_auth_pass, $ssh_host, $ssh_port = _DEFAULT_SSH_PORT_) {
 
             $this->cisco_secret = $cisco_secret;
-            $this->ssh_terminal = new ssh($ssh_auth_user, $ssh_auth_pass, $ssh_host, $ssh_port = _DEFAULT_SSH_PORT_);
+            $this->ssh_terminal = new ssh($ssh_auth_user, $ssh_auth_pass, $ssh_host, $ssh_port);
             $data = explode(PHP_EOL, $this->ssh_terminal->connect());
             $this->cisco_hostname = rtrim($data[count($data)-1],">");
             unset($data[count($data)-1]);
