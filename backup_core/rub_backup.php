@@ -4,6 +4,7 @@
 
     if (count ($argv) <3) die ("Usage: run_backup.php <template_id> <devices_per_backup_thread>\n");
 
+    echo str_repeat('-', 50)."\n";
 	$cntr = new backup_controller($argv[1], $argv[2]);
 	$cntr->run();
 ?>
