@@ -17,8 +17,6 @@ $this->params['breadcrumbs'][] = 'Backup for: '. $device_fqdn;
 ?>
 <div class="backups-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a('Delete', ['delete', 'id' => $model->backup_id], [
             'class' => 'btn btn-danger',
