@@ -17,8 +17,14 @@ class CrontabController extends Controller
 	public function actionShow()
     {
 		$model = new CronTab();
-		$model->loadCrontab();
-        return $this->render('crontab', ['model' => $model]);
+		
+		if ($model->load(Yii::$app->request->post())) {
+			$request = Yii::$app->request->post();
+			$model->saveCroneTab($request['CronTab']['crontab']);		
+		} else {
+			$model->loadCrontab();
+		}
+		return $this->render('crontabEditor', ['model' => $model]);		
     }
 
 }
