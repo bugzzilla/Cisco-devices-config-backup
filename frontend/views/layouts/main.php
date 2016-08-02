@@ -38,7 +38,7 @@ AppAsset::register($this);
         ['label' => '<span class="glyphicon glyphicon-home"></span>', 'url' => ['/site/index']],
         ['label' => 'Backup',
             'items' => [
-                ['label' => 'Crontab', 'url' => ['/site/blank']],
+                ['label' => 'Crontab', 'url' => ['/crontab/show']],
                 '<li class="divider"></li>',
                 ['label' => 'Templates', 'url' => ['/templates/index']],
                 ['label' => 'Logs', 'url' => ['/joblog/index']],

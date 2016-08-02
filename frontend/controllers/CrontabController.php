@@ -3,8 +3,7 @@
 namespace frontend\controllers;
 
 use Yii;
-use frontend\models\Templates;
-use frontend\models\TemplatesSearch;
+use frontend\models\CronTab;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -17,7 +16,9 @@ class CrontabController extends Controller
 
 	public function actionShow()
     {
-        return $this->render('crontab');
+		$model = new CronTab();
+		$model->loadCrontab();
+        return $this->render('crontab', ['model' => $model]);
     }
 
 }

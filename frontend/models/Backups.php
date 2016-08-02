@@ -1,9 +1,6 @@
 <?php
-
 namespace frontend\models;
-
 use Yii;
-
 /**
  * This is the model class for table "backups".
  *
@@ -27,7 +24,6 @@ class Backups extends \yii\db\ActiveRecord
     {
         return 'backups';
     }
-
     /**
      * @inheritdoc
      */
@@ -44,7 +40,6 @@ class Backups extends \yii\db\ActiveRecord
             [['jobs_job_id'], 'exist', 'skipOnError' => true, 'targetClass' => Joblog::className(), 'targetAttribute' => ['jobs_job_id' => 'job_id']],
         ];
     }
-
     /**
      * @inheritdoc
      */
@@ -59,7 +54,6 @@ class Backups extends \yii\db\ActiveRecord
             'storage' => Yii::t('app', 'Storage'),
         ];
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -67,7 +61,6 @@ class Backups extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Devices::className(), ['device_id' => 'devices_device_id']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -75,7 +68,6 @@ class Backups extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Joblog::className(), ['job_id' => 'jobs_job_id']);
     }
-
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -83,7 +75,6 @@ class Backups extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Threadlog::className(), ['backups_backup_id' => 'backup_id']);
     }
-
     /**
      * @inheritdoc
      * @return BackupsQuery the active query used by this AR class.
