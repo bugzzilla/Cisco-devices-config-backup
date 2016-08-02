@@ -15,22 +15,22 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'modules' => [
-		'gii' =>  [
-			'class' => 'yii\gii\Module',
-			'allowedIPs' => [
-				'127.0.0.1',
-				'172.23.80.139',
-				'localhost',
-			],
-		],
-    	'debug' => [
-    		'class' => 'yii\debug\Module',
-    		'allowedIPs' => [
-    			'127.0.0.1',
-    			'172.23.80.139',
-    			'localhost',
-    		],
-    	],
+	//	'gii' =>  [
+	//		'class' => 'yii\gii\Module',
+	//		'allowedIPs' => [
+	//			'127.0.0.1',
+	//			'172.23.80.139',
+	//			'localhost',
+	//		],
+	//	],
+  //  	'debug' => [
+   // 		'class' => 'yii\debug\Module',
+    //		'allowedIPs' => [
+   // 			'127.0.0.1',
+   // 			'172.23.80.139',
+    //			'localhost',
+    //		],
+    //	],
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [

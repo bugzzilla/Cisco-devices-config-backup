@@ -7,11 +7,12 @@ use yii\base\Model;
 class CronTab extends Model {
 	
 		public $crontab;
+		public $cron_result;		
 	
 		public function rules()
 		{
 			return [
-					[['crontab'], 'string'],
+					[['crontab', 'cron_result'], 'string'],
 			];
 		}
 		
@@ -19,6 +20,7 @@ class CronTab extends Model {
 		{
 			return [
 					'crontab' => 'Backup job example: /usr/bin/php /var/www/html/cisco-backup/backup_core/run_backup.php <template_id> <devices_per_backup_thread> | logger -i',
+					'cron_result' => '',					
 			];
 		}
 		
@@ -26,20 +28,27 @@ class CronTab extends Model {
 			
 			$responce ='';
 			$return_var = -1;
+			$this->cron_result = 'Error while loading crontab';
 			
 			exec('crontab -l', $responce, $return_var);
 			if (($return_var == 0) & (is_array($responce))) {
 				$this->crontab = implode("\n", $responce);
+				$this->cron_result = '';
 			}
 		}
 		
 		public function saveCroneTab($cron) {
-			if ($cron) {
-				$responce ='';
-				$return_var = -1;
+
+			$responce ='';
+			$return_var = -1;
+			$this->cron_result = '';
 				
-				exec("echo '".str_replace("\r", "",$cron)."' | crontab -", $responce, $return_var);
+			exec("echo '".str_replace("\r", "",$cron)."' | crontab -", $responce, $return_var);
 				
+			if ($return_var > 0) {
+				$this->cron_result = 'Save error, check cron syntax';					
+			} else {
+				$this->cron_result = 'Saved successfully';
 			}
 		}
 		
