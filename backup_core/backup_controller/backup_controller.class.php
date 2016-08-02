@@ -28,10 +28,15 @@
                 return;
             }
 
+            $sth = $this->pdo_connection->prepare(_PDO_GET_BACKUP_TEMPLATE_NAME_);
+            $sth->execute(array(':template_id' => $template_id));
+            $template_name = $this->devices_to_backup = $sth->fetchAll(PDO::FETCH_ASSOC)[0]['template_name'];            
+            
             $sth = $this->pdo_connection->prepare(_PDO_GET_DEVICES_TO_BACKUP_);
             $sth->execute(array(':template_id' => $template_id));
             $this->devices_to_backup = $sth->fetchAll(PDO::FETCH_ASSOC);
 
+            echo date(_LOG_DATE_TIME_FORMAT_).' Backup template id: '.$template_id." <$template_name>\n";
             echo date(_LOG_DATE_TIME_FORMAT_).' Devices to backup: '.$this->devices_to_backup_count = count($this->devices_to_backup)."\n";
             echo date(_LOG_DATE_TIME_FORMAT_).' Devices per backup thread: '.$this->devices_per_backup_thread = $devices_per_backup_thread."\n";
             echo date(_LOG_DATE_TIME_FORMAT_).' Backup thread count: '.$this->backup_thread_count = ceil($this->devices_to_backup_count / $this->devices_per_backup_thread)."\n";

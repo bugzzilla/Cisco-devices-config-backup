@@ -25,3 +25,5 @@
 	define('_PDO_INSERT_NEW_THREAD_LOG_', "
 			INSERT INTO `threadlog` (devices_device_id, jobs_job_id, backups_backup_id, backup_status) 
 			VALUES (:devices_device_id, :jobs_job_id, :backups_backup_id, :backup_status)");
+	
+	define ('_PDO_GET_BACKUP_TEMPLATE_NAME_','SELECT template_name FROM templates WHERE template_id=:template_id');

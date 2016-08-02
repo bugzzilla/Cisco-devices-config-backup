@@ -1,6 +1,0 @@
-		PHP Fatal error:  Uncaught Error: Call to a member function format() on array in /home/apetrov/php_dev/cisco/cisco/cisco.class.php:40
-Stack trace:
-#0 /home/apetrov/php_dev/cisco/backup_thread/backup_thread.class.php(64): cisco->dir('flash:')
-#1 /home/apetrov/php_dev/cisco/backup_thread/backup_thread.php(6): backup_thread->run_backup()
-#2 {main}
-  thrown in /home/apetrov/php_dev/cisco/cisco/cisco.class.php on line 40
