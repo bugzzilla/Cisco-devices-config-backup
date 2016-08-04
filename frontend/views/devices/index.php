@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'templates_template_id',
                 //'value' => 'templatesTemplate.template_name',
 				'value' => function ($model) {
-	           		return Html::a(Html::encode($model->templatesTemplate->template_name), Url::to(['templates/view', 'id' => $model->templatesTemplate->template_id]));
+	           		if ($model->templatesTemplate) return Html::a(Html::encode($model->templatesTemplate->template_name), Url::to(['templates/view', 'id' => $model->templatesTemplate->template_id]));
 	            },
                 'format' => 'raw',
 

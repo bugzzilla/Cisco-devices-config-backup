@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         		'attribute' => 'devices_device_id',
 //        		'value' => 'devicesDevice.device_hostname',
         		'value' => function ($model) {
-        			return Html::a(Html::encode($model->devicesDevice->getDeviceFullName()), Url::to(['devices/view', 'id' => $model->devicesDevice->device_id]));
+        			if ($model->devicesDevice) return Html::a(Html::encode($model->devicesDevice->getDeviceFullName()), Url::to(['devices/view', 'id' => $model->devicesDevice->device_id]));
         		},
         		'format' => 'raw',
         		
@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	       		'attribute' => 'jobs_job_id',
 //    			'value' => 'jobsJob.job_id',
        			'value' => function ($model) {
-       				return Html::a(Html::encode($model->jobsJob->job_id), Url::to(['joblog/view', 'id' => $model->jobsJob->internal_id]));
+       				if ($model->jobsJob) return Html::a(Html::encode($model->jobsJob->job_id), Url::to(['joblog/view', 'id' => $model->jobsJob->internal_id]));
 	       		},
     	   		'format' => 'raw',
        		],
