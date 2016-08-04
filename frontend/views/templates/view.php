@@ -10,6 +10,13 @@ $this->title = 'Template: ' . $model->template_name;
 $this->params['breadcrumbs'][] = ['label' => 'Templates', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+<?php 
+	file_put_contents('/tmp/template-view-'.$model->template_id.'.txt', print_r($slaves,true));
+
+?>
+
+
 <div class="templates-view">
 
     <p>

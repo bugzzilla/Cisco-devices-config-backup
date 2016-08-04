@@ -51,8 +51,13 @@ class TemplatesController extends Controller
      */
     public function actionView($id)
     {
+    	$model = $this->findModel($id);
+    	$slaves = $model->devices;
+    	
+    	
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+        	'slaves' => $slaves,
         ]);
     }
 
