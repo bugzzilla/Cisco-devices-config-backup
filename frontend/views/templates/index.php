@@ -31,7 +31,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'device_config',
             'storage',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 
+            		'template' => "{view}",
+			],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

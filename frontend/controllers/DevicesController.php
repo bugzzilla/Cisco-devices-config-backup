@@ -5,9 +5,12 @@ namespace frontend\controllers;
 use Yii;
 use frontend\models\Devices;
 use frontend\models\DevicesSearch;
+use frontend\models\ImportForm;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
+
 
 /**
  * DevicesController implements the CRUD actions for Devices model.
@@ -29,10 +32,26 @@ class DevicesController extends Controller
         ];
     }
 
+    public function actionImport()
+    {
+    	$model = new ImportForm();
+    	
+    	if (Yii::$app->request->isPost) {
+    		$model->importFile = UploadedFile::getInstance($model, 'importFile');
+    		if ($model->upload()) {
+    			// file is uploaded successfully
+    			return;
+    		}
+    	}
+    	
+    	return $this->render('import', ['model' => $model]);
+    }
+    
     /**
      * Lists all Devices models.
      * @return mixed
      */
+
     public function actionIndex()
     {
         $searchModel = new DevicesSearch();

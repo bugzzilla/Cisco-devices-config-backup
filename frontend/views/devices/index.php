@@ -18,6 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Device', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Import from CSV', ['import'], ['class' => 'btn btn-primary']) ?>
     </p>
 
 <?php Pjax::begin(); ?>    
@@ -50,7 +51,9 @@ $this->params['breadcrumbs'][] = $this->title;
         		'format' => 'boolean',
         		'filter' => array('1' => 'Enabled', '0' => 'Disabled'),
         	],
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 
+            	'template' => "{view}",
+	        ],
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

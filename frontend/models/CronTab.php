@@ -28,12 +28,14 @@ class CronTab extends Model {
 			
 			$responce ='';
 			$return_var = -1;
-			$this->cron_result = 'Error while loading crontab';
 			
 			exec('crontab -l', $responce, $return_var);
-			if (($return_var == 0) & (is_array($responce))) {
-				$this->crontab = implode("\n", $responce);
+			if (($return_var === 0) & (is_array($responce))) {
+				$this->crontab = implode(PHP_EOL, $responce);
 				$this->cron_result = '';
+			} else {
+				$this->crontab = '';
+				$this->cron_result = 'Error while loading crontab';
 			}
 		}
 		

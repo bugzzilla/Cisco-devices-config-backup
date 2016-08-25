@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		},			
 		'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
         'columns' => [
-        	'job_id',
+        	//'job_id',
         	[
         		'attribute' => 'templates_template_id',
         		'value' => 'templatesTemplate.template_name',
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
         	],
             [
             	'class' => 'yii\grid\ActionColumn',
-                'template' => "{view}{delete}",
+                'template' => "{view}",
             ],
 
         ],
