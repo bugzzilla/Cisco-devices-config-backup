@@ -18,10 +18,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a('Create Device', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Import from CSV', ['import'], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Import from file', ['import'], ['class' => 'btn btn-primary']) ?>
     </p>
 
-<?php Pjax::begin(); ?>    
+<?php Pjax::begin(); ?>   
+
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -35,6 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
 		],	
         'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
         'columns' => [
+        		
+			['class' => 'yii\grid\CheckboxColumn'],        		
             'device_hostname',
             'device_address',
             [

@@ -35,13 +35,15 @@ class DevicesController extends Controller
     public function actionImport()
     {
     	$model = new ImportForm();
+
     	
     	if (Yii::$app->request->isPost) {
     		$model->importFile = UploadedFile::getInstance($model, 'importFile');
-    		if ($model->upload()) {
-    			// file is uploaded successfully
-    			return;
-    		}
+    		$request = Yii::$app->request->post();
+    		$model->backupStatus = $request['ImportForm']['backupStatus'];
+    		$model->defaultTemplate = $request['ImportForm']['defaultTemplate'];
+    		$model = $model->import();
+    		return $this->render('importResult', ['model' => $model]);
     	}
     	
     	return $this->render('import', ['model' => $model]);

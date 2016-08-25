@@ -6,10 +6,10 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Backups */
 
-if ($model->devicesDevice->device_hostname) 
-	$device_fqdn = $model->devicesDevice->device_hostname . ' ('.trim($model->devicesDevice->device_address) . ')';
-else 
-	$device_fqdn = $model->devicesDevice->device_address;
+if ($model->devicesDevice) {
+	$device_fqdn = $model->devicesDevice->getDeviceFullName();
+
+} else $device_fqdn = null;	
 
 $this->title = 'Backup for: '. $device_fqdn;
 $this->params['breadcrumbs'][] = ['label' => 'Backups', 'url' => ['index']];
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = 'Backup for: '. $device_fqdn;
             'backup_id',
         	[
         		'label' => 'Device',
-        		'value' => $model->devicesDevice->getDeviceFullName(),        			
+        		'value' => $device_fqdn,        			
         		'format' => 'raw',
         		
        		],
