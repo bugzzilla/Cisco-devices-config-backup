@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\DevicesSearch */
@@ -12,20 +13,43 @@ use yii\helpers\Url;
 $this->title = 'Devices';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
 <div class="devices-index">
 
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+<?php 
+$script = <<< JS
+    $('#MultiDeleteButton').click(function(){
+		var keys = $('#devices').yiiGridView('getSelectedRows');
+		//alert(keys);
+		$.post({
+           url: 'index.php?r=devices/multidel', 
+           dataType: 'json',
+           data: {keylist: keys}
+        });
+    });
+JS;
 
-    <p>
-        <?= Html::a('Create Device', ['create'], ['class' => 'btn btn-success']) ?>
-        <?= Html::a('Import from file', ['import'], ['class' => 'btn btn-primary']) ?>
-    </p>
+$this->registerJs($script);
+?>
+
+<p>
+<?= Html::a('Create Device', ['create'], ['class' => 'btn btn-success btn-sm']) ?>&nbsp
+<?= Html::a('Import from file', ['import'], ['class' => 'btn btn-success btn-sm']) ?>
+</p>
+<p>
+<input type="button" class="btn btn-danger btn-sm" value="Selected : Delete" id="MultiDeleteButton" >
+<input type="button" class="btn btn-warning btn-sm" value="Selected : Change template" id="MultiTemplateButton" >			
+<input type="button" class="btn btn-warning btn-sm" value="Selected : Change backup state" id="MultiStateButton" >	
+</p>
 
 <?php Pjax::begin(); ?>   
 
+
+    
 	<?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+		'options' => ['id' => 'devices'],
 		'rowOptions' => function ($model) {
 			if (!$model->backup_status) return ['class' => 'danger'];
 			else return ['class' => 'success'];
@@ -59,4 +83,6 @@ $this->params['breadcrumbs'][] = $this->title;
 	        ],
         ],
     ]); ?>
-<?php Pjax::end(); ?></div>
+
+<?php Pjax::end(); ?>
+</div>

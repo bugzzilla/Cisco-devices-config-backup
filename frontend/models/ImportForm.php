@@ -49,6 +49,7 @@ class ImportForm extends Model
 				if ($item) {
 					$device = new Devices();
 					$device->device_address = trim($item,PHP_EOL);
+					$device->device_hostname = '';					
 					$device->templates_template_id = $this->defaultTemplate;
 					$device->backup_status = $this->backupStatus;
 					if ($device->save()) ++$this->importedDevices;

@@ -69,6 +69,19 @@ class JoblogController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionMultidel()
+    {
+    	if (isset($_POST['keylist'])) {
+    		$keys = $_POST['keylist'];
+    		if (is_array($keys)) {
+    			for ($i = 0; $i < count($keys); $i++) {
+    				$this->findModel($keys[$i])->delete();
+    			}
+    			return $this->redirect(['index']);
+    		}
+    		//file_put_contents('/tmp/12.txt', print_r($keys,true));
+    	}
+    }    
     /**
      * Finds the Joblog model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
