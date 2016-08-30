@@ -30,10 +30,10 @@ class Backups extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['devices_device_id'], 'integer'],
+            [['devices_device_id', 'diff_from_id'], 'integer'],
             [['jobs_job_id', 'config_datetime', 'storage_datetime', 'storage'], 'required'],
             [['storage_datetime'], 'safe'],
-            [['storage'], 'string'],
+            [['storage', 'diff'], 'string'],
             [['jobs_job_id'], 'string', 'max' => 128],
             [['config_datetime'], 'string', 'max' => 100],
             [['devices_device_id'], 'exist', 'skipOnError' => true, 'targetClass' => Devices::className(), 'targetAttribute' => ['devices_device_id' => 'device_id']],
@@ -52,6 +52,8 @@ class Backups extends \yii\db\ActiveRecord
             'config_datetime' => Yii::t('app', 'Config datetime'),
             'storage_datetime' => Yii::t('app', 'Storage datetime'),
             'storage' => Yii::t('app', 'Storage'),
+        	'diff_from_id' => Yii::t('app', 'DIFF backup ID'),        		
+        	'diff' => Yii::t('app', 'DIFF'),        		
         ];
     }
     /**

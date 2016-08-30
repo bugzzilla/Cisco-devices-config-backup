@@ -8,12 +8,13 @@
 			FROM `devices` dev, `templates` templ 
 			WHERE dev.templates_template_id=templ.template_id and dev.backup_status=1 and templ.template_id = :template_id");
 
-	define('_PDO_GET_DEVICE_BACKUP_', "SELECT backup_id FROM `backups` WHERE devices_device_id = :device_id and config_datetime = :config_datetime");
+	define('_PDO_GET_DEVICE_BACKUP_', "SELECT backup_id FROM `backups` WHERE devices_device_id = :devices_device_id and config_datetime = :config_datetime");
+	define('_PDO_GET_DEVICE_LAST_BACKUP_', "SELECT backup_id, storage FROM `backups` WHERE devices_device_id = :devices_device_id ORDER BY storage_datetime DESC LIMIT 1");	
 
 	define('_PDO_INSERT_CONFIG_BACKUP_', "
-			INSERT INTO `backups` (devices_device_id, jobs_job_id, config_datetime, storage_datetime, storage) 
-			VALUES (:devices_device_id, :jobs_job_id, :config_datetime, :storage_datetime, :storage)");
-
+			INSERT INTO `backups` (devices_device_id, jobs_job_id, config_datetime, storage_datetime, storage, diff_from_id, diff)
+			VALUES (:devices_device_id, :jobs_job_id, :config_datetime, :storage_datetime, :storage, :diff_from_id, :diff)");
+	
 	define('_PDO_INSERT_NEW_BACKUP_JOB_LOG_', "
 			INSERT INTO `joblog` (job_id, templates_template_id, job_started, devices_to_backup, devices_per_backup_thread, backup_thread_count)
 	        VALUES (:job_id, :templates_template_id, :job_started, :devices_to_backup, :devices_per_backup_thread, :backup_thread_count)");

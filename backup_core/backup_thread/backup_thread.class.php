@@ -6,6 +6,8 @@
 	require_once ( __DIR__ . '/../cisco/cisco.class.php');
 	require_once ( __DIR__ . '/../ping/ping.class.php');	
 	
+	require_once ( __DIR__ . './../PHP-FineDiff/finediff.php');
+	
 	class backup_thread {
 
 		private $backup_job_file = "";
@@ -67,7 +69,7 @@
 								if ($item['name'] == $config_name) {
 									// get device backup
 									$sth = $this->pdo_connection->prepare(_PDO_GET_DEVICE_BACKUP_);
-									$sth->execute(array(':device_id' => $device[0],':config_datetime' => $item['datetime']));
+									$sth->execute(array(':devices_device_id' => $device[0],':config_datetime' => $item['datetime']));
 									$backup = $sth->fetchAll(PDO::FETCH_ASSOC);                                                            
 									// if not found 
 									if (count($backup) == 0) {
@@ -76,13 +78,33 @@
 										if ($this->cisco_connection->copy($device[6],$device[7].$this->backup_job_file.'.text')) {
 											// 	wait for readable 
 											while (!is_readable($dest)) { }
+											$new_storage = file_get_contents($dest);
+											// get last backup if exists
+											$diff = '';
+											$diff_from_id = 0;
+											$sth = $this->pdo_connection->prepare(_PDO_GET_DEVICE_LAST_BACKUP_);
+											$sth->execute(array(':devices_device_id' => $device[0]));
+											$last_backup = $sth->fetchAll(PDO::FETCH_ASSOC);
+											// calculate diff between new&last backup
+											if (count($last_backup) > 0) {
+												$last_storage = $last_backup[0]['storage'];
+												$diff_from_id = $last_backup[0]['backup_id'];												
+												$opcodes = FineDiff::getDiffOpcodes($last_storage, $new_storage, FineDiff::$wordGranularity);
+												$diff = FineDiff::renderDiffToHTMLFromOpcodes($last_storage, $opcodes);
+											}
+											// insert new backup										
 											$sth = $this->pdo_connection->prepare(_PDO_INSERT_CONFIG_BACKUP_);
 											$sth->execute(array(':devices_device_id' => $device[0],
-															':config_datetime' => $item['datetime'],
-															':storage_datetime' => date(_LOG_DATE_TIME_FORMAT_),
-															':jobs_job_id' => $this->backup_job_id,												
-															':storage' => file_get_contents($dest)));
+													':config_datetime' => $item['datetime'],
+													':storage_datetime' => date(_LOG_DATE_TIME_FORMAT_),
+													':jobs_job_id' => $this->backup_job_id,
+													':storage' => $new_storage,
+													':diff_from_id' => $diff_from_id,
+													':diff' => $diff));
+											
 											$this->backup_id = $this->pdo_connection->lastInsertId();
+											file_put_contents('/tmp/111111', print_r($this->backup_id,true));
+											
 											$this->write_log($device, 'SUCCESS');
 											unlink($dest);
 										} else {
