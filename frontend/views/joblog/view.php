@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Joblog */
@@ -41,8 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'devices_per_backup_thread',
             'backup_thread_count',
         	'job_status:boolean',
-        	'job_log:ntext',
         ],
     ]) ?>
-
+  	<?php $form = ActiveForm::begin(); ?>
+	<?= $form->field($model, 'job_log')->textArea(['rows' => 10, 'readonly' => true]) ?>
+	<?php ActiveForm::end(); ?>
 </div>

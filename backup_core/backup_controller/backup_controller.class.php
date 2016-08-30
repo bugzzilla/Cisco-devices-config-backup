@@ -111,7 +111,7 @@
 	            	if (strpos($job_log, "ERROR")) 
 			            $job_status = 0;
 	            	else 
-	            	$job_status = 1;
+	            		$job_status = 1;
 	            } elseif (($this->devices_to_backup_count == 0)) {
 	            	$job_status = 0;
 	            	$job_log = "THERE IS NOTHING TO BACKUP";
@@ -123,7 +123,7 @@
 		        $sth->execute(array(':internal_id' => $this->backup_job_pdo_id,
 		               				':job_stopped' => $backup_job_stopped,
 	            					':job_status' => $job_status,            		
-		               				':job_log' => $job_log));
+		               				':job_log' => trim($job_log,"\t\r\n")));
 		        $this->pdo_connection = null;
             }	        
             echo $backup_job_stopped.' Controller stoped, job ID '.$this->backup_job_id."\n";

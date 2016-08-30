@@ -48,7 +48,7 @@ class ImportForm extends Model
 			foreach ($items as $item) {
 				if ($item) {
 					$device = new Devices();
-					$device->device_address = trim($item,PHP_EOL);
+					$device->device_address = trim($item,"\r\n");
 					$device->device_hostname = '';					
 					$device->templates_template_id = $this->defaultTemplate;
 					$device->backup_status = $this->backupStatus;

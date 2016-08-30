@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Backups */
@@ -48,8 +49,9 @@ $this->params['breadcrumbs'][] = 'Backup for: '. $device_fqdn;
             'jobsJob.job_id',
             'config_datetime:datetime',
             'storage_datetime:datetime',
-            'storage:ntext',
         ],
     ]) ?>
-
+  	<?php $form = ActiveForm::begin(); ?>
+	<?= $form->field($model, 'storage')->textArea(['rows' => 16, 'readonly' => true]) ?>
+	<?php ActiveForm::end(); ?>
 </div>

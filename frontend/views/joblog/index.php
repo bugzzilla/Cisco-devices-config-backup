@@ -58,8 +58,8 @@ $this->registerJs($script);
 		},			
 		'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
         'columns' => [
-        	'job_id',
-        	['class' => 'yii\grid\CheckboxColumn'],        	
+        	['class' => 'yii\grid\CheckboxColumn'],
+        	'job_id',        		
         	[
         		'attribute' => 'templates_template_id',
         		'value' => 'templatesTemplate.template_name',

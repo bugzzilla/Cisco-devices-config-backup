@@ -66,8 +66,8 @@ class BackupsSearch extends Backups
               ->andFilterWhere(['like', 'storage', $this->storage]);
         
 		$query->andFilterWhere(['or',
-									['like','devices.device_address', $this->devices_device_id],
-									['like','devices.device_hostname', $this->devices_device_id]
+							['like','devices.device_address', $this->devices_device_id],
+							['like','devices.device_hostname', $this->devices_device_id]
 		]);
             
         if ($this->config_datetime) $query->andFilterWhere(['like', 'config_datetime', Yii::$app->formatter->asDatetime($this->config_datetime,'y-MM-dd')]); 
