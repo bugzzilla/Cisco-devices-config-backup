@@ -18,13 +18,15 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php 
 $script = <<< JS
     $('#MultiDeleteButton').click(function(){
-		var keys = $('#joblog').yiiGridView('getSelectedRows');
-		//alert(keys);
-		$.post({
-           url: 'index.php?r=joblog/multidel', 
-           dataType: 'json',
-           data: {keylist: keys}
-        });
+		var r = confirm("Are you sure you want to delete these entries ?!");
+		if (r == true) {
+			var keys = $('#joblog').yiiGridView('getSelectedRows');
+			$.post({
+           		url: 'index.php?r=joblog/multidel', 
+           		dataType: 'json',
+           		data: {keylist: keys}
+        	});
+		}
     });
 JS;
 
@@ -32,7 +34,7 @@ $this->registerJs($script);
 ?>
 
 <p>		
-<input type="button" class="btn btn-danger btn-sm" value="Selected : Delete" id="MultiDeleteButton" >  	</div>
+<input type="button" class="btn btn-danger btn-sm" value="Delete selected" id="MultiDeleteButton" >  	</div>
 </p>
 
 
@@ -56,7 +58,7 @@ $this->registerJs($script);
 		},			
 		'layout' => "{pager}\n{summary}\n{items}\n{summary}\n{pager}",
         'columns' => [
-        	//'job_id',
+        	'job_id',
         	['class' => 'yii\grid\CheckboxColumn'],        	
         	[
         		'attribute' => 'templates_template_id',

@@ -63,9 +63,12 @@ class BackupsSearch extends Backups
         ]);
 
         $query->andFilterWhere(['like', 'jobs_job_id', $this->jobs_job_id])
-              ->andFilterWhere(['like', 'storage', $this->storage])
-              ->andFilterWhere(['like', 'devices.device_hostname', $this->devices_device_id]);
-
+              ->andFilterWhere(['like', 'storage', $this->storage]);
+        
+		$query->andFilterWhere(['or',
+									['like','devices.device_address', $this->devices_device_id],
+									['like','devices.device_hostname', $this->devices_device_id]
+		]);
             
         if ($this->config_datetime) $query->andFilterWhere(['like', 'config_datetime', Yii::$app->formatter->asDatetime($this->config_datetime,'y-MM-dd')]); 
         if ($this->storage_datetime) $query->andFilterWhere(['like', 'storage_datetime', Yii::$app->formatter->asDatetime($this->storage_datetime,'y-MM-dd')]);        

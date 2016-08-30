@@ -18,28 +18,30 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php 
 $script = <<< JS
+
+
     $('#MultiDeleteButton').click(function(){
-		var keys = $('#devices').yiiGridView('getSelectedRows');
-		//alert(keys);
-		$.post({
-           url: 'index.php?r=devices/multidel', 
-           dataType: 'json',
-           data: {keylist: keys}
-        });
+			var r = confirm("Are you sure you want to delete these entries ?!");
+			if (r == true) {
+				var keys = $('#devices').yiiGridView('getSelectedRows');
+				$.post({
+           			url: 'index.php?r=devices/multidel', 
+           			dataType: 'json',
+           			data: {keylist: keys}
+        		});
+			}
     });
+
 JS;
 
 $this->registerJs($script);
 ?>
-
 <p>
 <?= Html::a('Create Device', ['create'], ['class' => 'btn btn-success btn-sm']) ?>&nbsp
 <?= Html::a('Import from file', ['import'], ['class' => 'btn btn-success btn-sm']) ?>
 </p>
 <p>
-<input type="button" class="btn btn-danger btn-sm" value="Selected : Delete" id="MultiDeleteButton" >
-<input type="button" class="btn btn-warning btn-sm" value="Selected : Change template" id="MultiTemplateButton" >			
-<input type="button" class="btn btn-warning btn-sm" value="Selected : Change backup state" id="MultiStateButton" >	
+<input type="button" class="btn btn-danger btn-sm" value="Delete selected" id="MultiDeleteButton" >
 </p>
 
 <?php Pjax::begin(); ?>   
