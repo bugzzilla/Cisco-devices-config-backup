@@ -52,7 +52,7 @@
 				$device = explode('|', $device);
 				$this->backup_id = 0;
 				try {
-					$p = new ping($device[1],1);
+					$p = new ping($device[1],3);
 					if ($p->pingResult['returnVar'] == 0) {
 						$this->cisco_connection = new cisco($device[2], $device[3], $device[4], $device[1], $device[5]);
 						$config_url = strtok($device[6],':').":";
