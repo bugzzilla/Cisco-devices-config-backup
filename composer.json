@@ -21,8 +21,7 @@
         "kartik-v/yii2-widget-select2": "@dev",
         "kartik-v/yii2-widget-switchinput": "*",
         "kartik-v/yii2-widget-datepicker": "@dev",
-        "kartik-v/yii2-widget-fileinput": "@dev",
-        "2amigos/yii2-ckeditor-widget": "~1.0"
+        "kartik-v/yii2-widget-fileinput": "@dev"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",
